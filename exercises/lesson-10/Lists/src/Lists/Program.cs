@@ -1,9 +1,17 @@
+using Lists.Controllers;
 using Lists.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Setup logging
+builder.Host.UseSerilog((context, services, configuration) => {
+    configuration.ReadFrom.Configuration(context.Configuration).Enrich.FromLogContext().WriteTo.Console();
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddSingleton<ListService<string>>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,6 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

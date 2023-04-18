@@ -4,10 +4,12 @@ namespace Lists.Services;
 
 public class ListService<T> {
 
-  public List<ListItem<T>> Items = new List<ListItem<T>>();
+  public List<ListItem<T>> Items = new();
 
   public List<ListItem<T>> AddItemToList(ListItem<T> item) {
-    // Implement
+ 
+    Items.Add(item);
+
     return new List<ListItem<T>>(Items);
   }
 
@@ -16,8 +18,18 @@ public class ListService<T> {
     return Items;
   }
 
+  public ListItem<T>? GetItem(int index)
+  {
+      if (Items.ElementAtOrDefault(index) == null)
+      {
+          return null;
+      }
+
+      return Items[index];
+  }
+
   public List<ListItem<T>> RemoveItem(int index) {
-    // Implement
-    return new List<ListItem<T>>(Items);
+      Items.RemoveAt(index);
+      return new List<ListItem<T>>(Items);
   }
 }
